@@ -32,7 +32,7 @@ jobs:
       matrix: ${{ fromJson(needs.load_vars.outputs.BUILD_MATRIX) }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: recursive
 
@@ -84,13 +84,13 @@ jobs:
 
       - name: Lowercase Registry
         id: registry_case
-        uses: ASzc/change-string-case-action@v6
+        uses: ASzc/change-string-case-action@v8
         with:
           string: ${{ needs.load_vars.outputs.IMAGE_REPO }}
 
       - name: Get image version
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           tags: |
             type=ref,event=branch
@@ -121,7 +121,7 @@ jobs:
       - name: Upload ISO as artifact
         if: matrix.version != 'fake'
         id: upload
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.image_name }}-${{ matrix.version }}${{ matrix.flatpaks == 'false' && '' || format('-{0}', matrix.flatpaks) }}
           path: |
